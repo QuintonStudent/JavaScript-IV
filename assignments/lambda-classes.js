@@ -69,6 +69,15 @@ const danLevy = new Instructor({
   catchPhrase: 'Something about his cats'
 });
 
+const fred = new Instructor({
+  name: 'Fred',
+  age: 37,
+  location: 'Bedrock',
+  favLanguage: 'JavaScript',
+  specialty: 'Front-end',
+  catchPhrase: `Don't forget the homies`
+});
+
 const quinton = new Student({
   name: 'Quinton',
   age: 21,
@@ -78,12 +87,29 @@ const quinton = new Student({
   favSubjects: ['Objects', 'Classes', 'Arrays', 'Methods']
 });
 
+const connor = new Student({
+  name: 'Connor',
+  age: 20,
+  location: 'Boston',
+  previousBackground: 'College Student',
+  className: 'WEB21',
+  favSubjects: ['subject1', 'subject2', 'subject3']
+});
+
 const angela = new ProjectManager({
   name: 'Angela',
   age: 25,
   location: 'Florida',
   gradClassName: 'WEBPT2',
   favInstructor: 'Dan Levy'
+});
+
+const bob = new ProjectManager({
+  name: 'Bob',
+  age: 300,
+  location: 'Mexico',
+  gradClassName: 'WEB11',
+  favInstructor: 'Fred'
 });
 
 danLevy.speak();
