@@ -7,7 +7,7 @@ class Person { // base class
     this.location = attrs.location;
   }
   speak() {
-    console.log(`Hello, my name is ${this.name}, I am from ${this.location}.`)
+    console.log(`Hello, my name is ${this.name}, I am from ${this.location}.`);
   }
 }
 
@@ -19,10 +19,10 @@ class Instructor extends Person {
     this.catchPhrase = attrs.catchPhrase;
   }
   demo(subject) {
-    console.log(`Today we are learning about ${subject}.`)
+    console.log(`Today we are learning about ${subject}.`);
   }
   grade(student, subject) {
-    console.log(`${student.name} receives a perfect score on ${subject}.`)
+    console.log(`${student.name} receives a perfect score on ${subject}.`);
   }
 }
 
@@ -39,10 +39,10 @@ class Student extends Person {
     }
   }
   PRAssignment(subject) {
-    console.log(`${student.name} has submitted a PR for ${subject}.`)
+    console.log(`${this.name} has submitted a PR for ${subject}.`);
   }
   sprintChallenge(subject) {
-    console.log(`${this.name} has begun sprint challenge on ${subject}.`)
+    console.log(`${this.name} has begun sprint challenge on ${subject}.`);
   }
 }
 
@@ -53,10 +53,10 @@ class ProjectManager extends Instructor {
     this.favInstructor = attrs.favInstructor;
   }
   standUp(channel) {
-    console.log(`${this.name} announces to ${channel}, @channel standy times!`)
+    console.log(`${this.name} announces to ${channel}, @channel standy times!`);
   }
   debugsCode(student, subject) {
-    console.log(`${this.name} debugs ${student.name}'s code on ${subject}.`)
+    console.log(`${this.name} debugs ${student.name}'s code on ${subject}.`);
   }
 }
 
@@ -76,9 +76,25 @@ const quinton = new Student({
   previousBackground: 'University Student',
   className: 'WEB21',
   favSubjects: ['Objects', 'Classes', 'Arrays', 'Methods']
+});
 
-})
+const angela = new ProjectManager({
+  name: 'Angela',
+  age: 25,
+  location: 'Florida',
+  gradClassName: 'WEBPT2',
+  favInstructor: 'Dan Levy'
+});
+
 danLevy.speak();
 danLevy.demo('JavaScript');
 danLevy.grade(quinton, 'Javascript');
+quinton.speak();
 quinton.listSubjects();
+quinton.PRAssignment('Random Assignment');
+quinton.sprintChallenge('Random Sprint Challenge');
+angela.speak();
+angela.demo('Random Demo');
+angela.grade(quinton, 'Random Project');
+angela.standUp('web21_angela');
+angela.debugsCode(quinton, 'CSS & HTML');
