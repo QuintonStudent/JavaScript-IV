@@ -15,15 +15,26 @@ Prototype Refactor
   * dimensions (These represent the character's size in the video game)
   * destroy() // prototype method that returns: `${this.name} was removed from the game.`
 */
-function GameObject(attributes) {
-  this.createdAt = Date();
-  this.name = attributes.name;
-  this.dimensions = attributes.dimensions;
-}
+// function GameObject(attributes) {
+//   this.createdAt = Date();
+//   this.name = attributes.name;
+//   this.dimensions = attributes.dimensions;
+// }
+//
+// Object.prototype.destroy = function() {
+//   return `${this.name} was removed from the game.`
+// };
 
-Object.prototype.destroy = function() {
-  return `${this.name} was removed from the game.`
-};
+class GameObject {
+  constructor(attributes) {
+    this.createdAt = Date();
+    this.name = attributes.name;
+    this.dimensions = attributes.dimensions;
+  }
+  destroy() {
+    return `${this.name} was removed from the game.`
+  }
+}
 
 /*
   === CharacterStats ===
@@ -31,14 +42,24 @@ Object.prototype.destroy = function() {
   * takeDamage() // prototype method -> returns the string '<object name> took damage.'
   * should inherit destroy() from GameObject's prototype
 */
-function CharacterStats(attributes) {
-  GameObject.call(this, attributes);
-  this.healthPoints = attributes.healthPoints;
-}
+// function CharacterStats(attributes) {
+//   GameObject.call(this, attributes);
+//   this.healthPoints = attributes.healthPoints;
+// }
+//
+// Object.prototype.takeDamage = function() {
+//   return `${this.name} took damage.`
+// };
 
-Object.prototype.takeDamage = function() {
-  return `${this.name} took damage.`
-};
+class CharacterStats extends GameObject {
+  constructor(attributes) {
+    super(attributes);
+    this.healthPoints = attributes.healthPoints;
+  }
+  takeDamage() {
+    return `${this.name} took damage.`
+  }
+}
 
 /*
   === Humanoid (Having an appearance or character resembling that of a human.) ===
@@ -49,25 +70,56 @@ Object.prototype.takeDamage = function() {
   * should inherit destroy() from GameObject through CharacterStats
   * should inherit takeDamage() from CharacterStats
 */
-function Humanoid(attributes) {
-  CharacterStats.call(this, attributes);
-  this.team = attributes.team;
-  this.weapons = attributes.weapons;
-  this.language = attributes.language;
+// function Humanoid(attributes) {
+//   CharacterStats.call(this, attributes);
+//   this.team = attributes.team;
+//   this.weapons = attributes.weapons;
+//   this.language = attributes.language;
+// }
+//
+// Object.prototype.greet = function() {
+//   return `${this.name} offers a greeting in ${this.language}.`
+// };
+
+class Humanoid extends CharacterStats {
+  constructor(attributes) {
+    super(attributes);
+    this.team = attributes.team;
+    this.weapons = attributes.weapons;
+    this.language = attributes.language;
+  }
+  greet() {
+    return `${this.name} offers a greeting in ${this.language}.`
+  }
 }
 
-Object.prototype.greet = function() {
-  return `${this.name} offers a greeting in ${this.language}.`
-};
+// function Villain(attributes) {
+//   Humanoid.call(this, attributes);
+// }
+//
+// Object.prototype.shadowBall = function() {
+//   if (this.name === 'Evil Person') {
+//     let HpChange = Math.ceil(Math.random() * 10);
+//     hero.healthPoints -= (HpChange);
+//     if (hero.healthPoints <= 0) {
+//       return `The villain has defeated the hero!`;
+//     }
+//     else {
+//       return `The ${this.name} conjures a shadowball and hurls it at the hero for ${HpChange} damage. The hero now has ${hero.healthPoints}hp remaining.`
+//     }
+//   }
+//   else {
+//     return `${this.name} cannot cast a shadowball.`
+//   }
+// };
 
-function Villain(attributes) {
-  Humanoid.call(this, attributes);
-}
-
-Object.prototype.shadowBall = function() {
-  if (this.name === 'Evil Person') {
+class Villain extends Humanoid {
+  constructor(attributes) {
+    super(attributes);
+  }
+  shadowBall() {
     let HpChange = Math.ceil(Math.random() * 10);
-    hero.healthPoints -= (HpChange);
+      hero.healthPoints -= (HpChange);
     if (hero.healthPoints <= 0) {
       return `The villain has defeated the hero!`;
     }
@@ -75,29 +127,42 @@ Object.prototype.shadowBall = function() {
       return `The ${this.name} conjures a shadowball and hurls it at the hero for ${HpChange} damage. The hero now has ${hero.healthPoints}hp remaining.`
     }
   }
-  else {
-    return `${this.name} cannot cast a shadowball.`
-  }
-};
-
-function Hero(attributes) {
-  Humanoid.call(this, attributes);
 }
 
-Object.prototype.basicAttack = function() {
-  if (this.name === 'Hero Person'){
-    villain.healthPoints -= 5;
+// function Hero(attributes) {
+//   Humanoid.call(this, attributes);
+// }
+//
+// Object.prototype.basicAttack = function() {
+//   if (this.name === 'Hero Person'){
+//     villain.healthPoints -= 5;
+//     if (villain.healthPoints <= 0) {
+//       return `The hero has defeated the villain!`
+//     }
+//     else {
+//       return `The hero attacks the villain with his sword for 5 damage. The villain now has ${villain.healthPoints}hp remaining.`;
+//     }
+//   }
+//   else {
+//     return `${this.name} cannot perform a basic attack.`
+//   }
+// };
+
+class Hero extends Humanoid {
+  constructor(attributes) {
+    super(attributes);
+  }
+  basicAttack() {
+    let HpChange = Math.ceil(Math.random() * 5);
+      villain.healthPoints -= (HpChange);
     if (villain.healthPoints <= 0) {
       return `The hero has defeated the villain!`
     }
     else {
-      return `The hero attacks the villain with his sword for 5 damage. The villain now has ${villain.healthPoints}hp remaining.`;
+      return `The hero attacks the villain with his sword for ${HpChange} damage. The villain now has ${villain.healthPoints}hp remaining.`;
     }
   }
-  else {
-    return `${this.name} cannot perform a basic attack.`
-  }
-};
+}
 
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
@@ -157,7 +222,7 @@ Object.prototype.basicAttack = function() {
     language: 'Elvish',
   });
 
-  const villain = new Humanoid({
+  const villain = new Villain({
     createdAt: new Date(),
     dimensions: {
       length: 1,
@@ -173,7 +238,7 @@ Object.prototype.basicAttack = function() {
     language: 'Demonic',
   });
 
-  const hero = new Humanoid({
+  const hero = new Hero({
     createdAt: new Date(),
     dimensions: {
       length: 3,
@@ -207,7 +272,6 @@ Object.prototype.basicAttack = function() {
   console.log(villain.shadowBall());
   console.log(villain.shadowBall());
   console.log(villain.shadowBall());
-  console.log(hero.shadowBall());
   console.log(hero.basicAttack());
   console.log(hero.basicAttack());
   console.log(hero.basicAttack());
